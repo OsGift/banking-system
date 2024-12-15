@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BankingSystem.Application.DTOs
+﻿namespace BankingSystem.Application.DTOs
 {
-    public class TransactionDto
+    namespace BankingSystem.Application.DTOs
     {
-        public Guid Id { get; set; }
-        public decimal Amount { get; set; }
-        public string Type { get; set; } = string.Empty;
-        public DateTime Timestamp { get; set; }
+        public class TransactionDto
+        {
+            public int TransactionId { get; set; }
+            public decimal Amount { get; set; }
+            public DateTime TransactionDate { get; set; }
+            public string Description { get; set; } = string.Empty;
+        }
     }
+
 }

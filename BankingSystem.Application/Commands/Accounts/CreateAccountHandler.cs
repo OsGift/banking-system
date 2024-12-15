@@ -1,24 +1,27 @@
-﻿using BankingSystem.Domain.Entities;
-using BankingSystem.Infrastructure.Persistence.Repositories;
+﻿using BankingSystem.Application.Interfaces;
+using BankingSystem.Domain.Entities;
 using MediatR;
 
 namespace BankingSystem.Application.Commands.Accounts
 {
     public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, bool>
     {
-        private readonly AccountRepository _repository;
+        private readonly IAccountService _accountService;
 
-        public CreateAccountHandler(AccountRepository repository)
+        public CreateAccountHandler(IAccountService accountService)
         {
-            _repository = repository;
+            _accountService = accountService;
         }
 
-        public Task<bool> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
-            var account = new Account { Name = request.Name };
-            account.Deposit(request.InitialDeposit);
-            _repository.Add(account);
-            return Task.FromResult(true);
+            var account = new Account
+            {
+                AccountHolderName = request.AccountHolderName,
+                Balance = request.InitialDeposit
+            };
+
+            return await _accountService.CreateAccountAsync(account);
         }
     }
 }

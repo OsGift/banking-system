@@ -1,31 +1,21 @@
 ﻿using BankingSystem.Application.DTOs;
-using BankingSystem.Infrastructure.Persistence.Repositories;
+using BankingSystem.Application.Interfaces;
 using MediatR;
 
 namespace BankingSystem.Application.Queries.Accounts
 {
     public class GetAccountDetailsHandler : IRequestHandler<GetAccountDetailsQuery, AccountDto>
     {
-        private readonly AccountRepository _repository;
+        private readonly IAccountService _accountService;
 
-        public GetAccountDetailsHandler(AccountRepository repository)
+        public GetAccountDetailsHandler(IAccountService accountService)
         {
-            _repository = repository;
+            _accountService = accountService;
         }
 
-        public Task<AccountDto> Handle(GetAccountDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<AccountDto> Handle(GetAccountDetailsQuery request, CancellationToken cancellationToken)
         {
-            var account = _repository.GetById(request.AccountId);
-            if (account != null)
-            {
-                return Task.FromResult(new AccountDto
-                {
-                    Id = account.Id,
-                    Name = account.Name,
-                    Balance = account.Balance
-                });
-            }
-            return Task.FromResult<AccountDto>(null);
+            return await _accountService.GetAccountDetailsAsync(request.AccountId);
         }
     }
 }

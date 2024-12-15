@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankingSystem.Domain\BankingSystem.Domain.csproj" />
-    <ProjectReference Include="..\BankingSystem.Infrastructure\BankingSystem.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

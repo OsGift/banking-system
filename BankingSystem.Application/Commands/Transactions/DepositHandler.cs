@@ -1,27 +1,20 @@
-﻿using BankingSystem.Infrastructure.Persistence.Repositories;
+﻿using BankingSystem.Application.Interfaces;
 using MediatR;
 
 namespace BankingSystem.Application.Commands.Transactions
 {
     public class DepositHandler : IRequestHandler<DepositCommand, bool>
     {
-        private readonly AccountRepository _repository;
+        private readonly ITransactionService _transactionService;
 
-        public DepositHandler(AccountRepository repository)
+        public DepositHandler(ITransactionService transactionService)
         {
-            _repository = repository;
+            _transactionService = transactionService;
         }
 
-        public Task<bool> Handle(DepositCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DepositCommand request, CancellationToken cancellationToken)
         {
-            var account = _repository.GetById(request.AccountId);
-            if (account != null)
-            {
-                account.Deposit(request.Amount);
-                _repository.Update(account);
-                return Task.FromResult(true);
-            }
-            return Task.FromResult(false);
+            return await _transactionService.DepositAsync(request.AccountId, request.Amount);
         }
     }
 }

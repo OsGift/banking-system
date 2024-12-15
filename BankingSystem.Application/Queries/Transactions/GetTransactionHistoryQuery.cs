@@ -1,10 +1,15 @@
-﻿using BankingSystem.Application.DTOs;
+﻿using BankingSystem.Application.DTOs.BankingSystem.Application.DTOs;
 using MediatR;
 
-namespace BankingSystem.Application.Queries.Transactions
+namespace BankingSystem.Application.Queries.Accounts
 {
-    public class GetTransactionHistoryQuery : IRequest<IEnumerable<TransactionDto>>
+
+    namespace BankingSystem.Application.Queries.Transactions
     {
-        public Guid AccountId { get; set; }
+        public class GetTransactionHistoryQuery : IRequest<List<TransactionDto>>
+        {
+            public int AccountId { get; set; }
+        }
     }
+
 }
