@@ -27,7 +27,7 @@ namespace BankingSystem.API.Controllers
 
         [HttpGet("{accountId}")]
         [RoleRequirement("Admin", "User")] // Admins and Users can view account details
-        public async Task<IActionResult> GetAccountDetails(int accountId)
+        public async Task<IActionResult> GetAccountDetails(Guid accountId)
         {
             var query = new GetAccountDetailsQuery { AccountId = accountId };
             var account = await _mediator.Send(query);

@@ -4,9 +4,9 @@ namespace BankingSystem.Application.Interfaces
 {
     public interface ITransactionService
     {
-        Task<bool> DepositAsync(int accountId, decimal amount);
-        Task<bool> WithdrawAsync(int accountId, decimal amount);
-        Task<List<TransactionDto>> GetTransactionHistoryAsync(int accountId);
-        Task<string> GenerateMonthlyStatementAsync(int accountId, int month, int year);
+        Task<bool> DepositAsync(Guid accountId, decimal amount);
+        Task<bool> WithdrawAsync(Guid accountId, decimal amount);
+        Task<List<TransactionDto>> GetTransactionHistoryAsync(Guid accountId);
+        Task<string> GenerateMonthlyStatementAsync(Guid accountId, int month, int year);
     }
 }

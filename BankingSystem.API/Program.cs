@@ -2,23 +2,64 @@ using BankingSystem.API.Filters;
 using BankingSystem.API.Middleware;
 using BankingSystem.API.Swagger;
 using BankingSystem.Infrastructure;
+using BankingSystem.Infrastructure.Configurations;
 using BankingSystem.Infrastructure.Persistence;
 using BankingSystem.Infrastructure.Services;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Register MediatR service
+
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+// Bind configuration sections to classes
+builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<RedisSettings>(builder.Configuration.GetSection("RedisSettings"));
+
 
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddSwaggerDocumentation();
-builder.Services.AddScoped<AuthenticationService>(sp =>
-    new AuthenticationService(builder.Configuration["JwtSecret"]));
+builder.Services.AddScoped<AuthenticationService>();
+
+
+
 builder.Services.AddScoped<ExceptionFilter>();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySQL(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+// Configure Authorization with Policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOrManager", policy =>
+        policy.RequireRole("Admin", "Manager"));
+});
 
 
 // Configure Infrastructure

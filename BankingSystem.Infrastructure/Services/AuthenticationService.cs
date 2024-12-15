@@ -1,17 +1,20 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BankingSystem.Infrastructure.Configurations;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BankingSystem.Infrastructure.Services
 {
     public class AuthenticationService
     {
-        private readonly string _jwtSecret;
+        
+        private readonly JwtSettings _jwtSettings;
 
-        public AuthenticationService(string jwtSecret)
+        public AuthenticationService(IOptions<JwtSettings> jwtSettings)
         {
-            _jwtSecret = jwtSecret;
+            _jwtSettings = jwtSettings.Value;
         }
 
         public string GenerateToken(string username, string role)
@@ -22,12 +25,13 @@ namespace BankingSystem.Infrastructure.Services
                 new Claim(ClaimTypes.Role, role) // Assign role to the token
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.JwtSecret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+
             var token = new JwtSecurityToken(
-                issuer: "BankingSystem",
-                audience: "BankingSystem",
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: credentials
@@ -39,7 +43,7 @@ namespace BankingSystem.Infrastructure.Services
         public ClaimsPrincipal ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_jwtSecret);
+            var key = Encoding.UTF8.GetBytes(_jwtSettings.JwtSecret);
 
             try
             {

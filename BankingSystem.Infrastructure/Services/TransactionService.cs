@@ -22,7 +22,7 @@ namespace BankingSystem.Infrastructure.Services
             _cacheService = cacheService;
         }
 
-        public async Task<bool> DepositAsync(int accountId, decimal amount)
+        public async Task<bool> DepositAsync(Guid accountId, decimal amount)
         {
             var account = await _accountRepository.GetAccountByIdAsync(accountId);
             if (account == null)
@@ -49,7 +49,7 @@ namespace BankingSystem.Infrastructure.Services
             return true;
         }
 
-        public async Task<bool> WithdrawAsync(int accountId, decimal amount)
+        public async Task<bool> WithdrawAsync(Guid accountId, decimal amount)
         {
             var account = await _accountRepository.GetAccountByIdAsync(accountId);
             if (account == null || account.Balance < amount)
@@ -76,7 +76,7 @@ namespace BankingSystem.Infrastructure.Services
             return true;
         }
 
-        public async Task<List<TransactionDto>> GetTransactionHistoryAsync(int accountId)
+        public async Task<List<TransactionDto>> GetTransactionHistoryAsync(Guid accountId)
         {
             var cacheKey = $"transactions_account_{accountId}";
 
@@ -108,7 +108,7 @@ namespace BankingSystem.Infrastructure.Services
             }).ToList();
         }
 
-        public async Task<string> GenerateMonthlyStatementAsync(int accountId, int month, int year)
+        public async Task<string> GenerateMonthlyStatementAsync(Guid accountId, int month, int year)
         {
             var transactions = await _transactionRepository.GetTransactionsByAccountIdAsync(accountId);
             var filteredTransactions = transactions

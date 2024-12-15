@@ -31,7 +31,7 @@ namespace BankingSystem.API.Controllers
         }
 
         [HttpGet("{accountId}/history")]
-        public async Task<IActionResult> GetTransactionHistory(int accountId)
+        public async Task<IActionResult> GetTransactionHistory(Guid accountId)
         {
             var query = new GetTransactionHistoryQuery { AccountId = accountId };
             var transactions = await _mediator.Send(query);

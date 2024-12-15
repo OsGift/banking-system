@@ -5,6 +5,6 @@ namespace BankingSystem.Application.Queries.Accounts
 {
     public class GetAccountDetailsQuery : IRequest<AccountDto>
     {
-        public int AccountId { get; set; }
+        public Guid AccountId { get; set; }
     }
 }

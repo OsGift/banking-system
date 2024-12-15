@@ -22,7 +22,7 @@ namespace BankingSystem.Infrastructure.Repositories
 
         public async Task<User> GetByIdAsync(Guid userId)
         {
-            return await _context.Users.Include(u => u.Accounts).FirstOrDefaultAsync(u => u.UserId == userId);
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
         public async Task<User> GetByUsernameAsync(string username)

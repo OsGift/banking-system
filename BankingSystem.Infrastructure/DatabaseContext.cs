@@ -1,4 +1,5 @@
-﻿using BankingSystem.Domain.Entities;
+﻿
+using BankingSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankingSystem.Infrastructure
@@ -13,10 +14,11 @@ namespace BankingSystem.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure models
-            modelBuilder.Entity<Account>().HasKey(a => a.AccountId);
-            modelBuilder.Entity<Transaction>().HasKey(t => t.TransactionId);
-            modelBuilder.Entity<User>().HasKey(u => u.UserId);
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Accounts)
+                .WithOne(a => a.User)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.Cascade); // Cascade delete to handle child records
         }
     }
 }

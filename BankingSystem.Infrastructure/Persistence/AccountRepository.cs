@@ -12,9 +12,9 @@ namespace BankingSystem.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<Account?> GetAccountByIdAsync(int accountId)
+        public async Task<Account?> GetAccountByIdAsync(Guid accountId)
         {
-            return await _context.Accounts.Include(a => a.User).Include(a => a.Transactions)
+            return await _context.Accounts.Include(a => a.Transactions)
                                           .FirstOrDefaultAsync(a => a.AccountId == accountId);
         }
 

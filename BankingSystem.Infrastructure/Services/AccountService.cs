@@ -27,7 +27,7 @@ namespace BankingSystem.Infrastructure.Services
             }
         }
 
-        public async Task<AccountDto?> GetAccountDetailsAsync(int accountId)
+        public async Task<AccountDto?> GetAccountDetailsAsync(Guid accountId)
         {
             var account = await _accountRepository.GetAccountByIdAsync(accountId);
             if (account == null)

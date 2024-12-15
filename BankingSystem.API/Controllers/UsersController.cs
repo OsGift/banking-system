@@ -3,6 +3,7 @@ using BankingSystem.Application.DTOs;
 using BankingSystem.Application.Interfaces;
 using BankingSystem.Domain.Entities;
 using BankingSystem.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -47,6 +48,7 @@ namespace BankingSystem.Api.Controllers
         [HttpGet]
         [SwaggerResponse(200, "Users fetched successfully", typeof(ResponseType<IEnumerable<User>>))]
         [RoleRequirement("Admin", "Manager")] // Admins and Managers can create accounts
+        [Authorize]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userRepository.GetAllAsync();

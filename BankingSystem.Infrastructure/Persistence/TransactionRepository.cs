@@ -12,7 +12,7 @@ namespace BankingSystem.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<List<Transaction>> GetTransactionsByAccountIdAsync(int accountId)
+        public async Task<List<Transaction>> GetTransactionsByAccountIdAsync(Guid accountId)
         {
             return await _context.Transactions
                                  .Where(t => t.AccountId == accountId)

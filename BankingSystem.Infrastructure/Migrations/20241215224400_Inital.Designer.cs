@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241215210501_Inital")]
+    [Migration("20241215224400_Inital")]
     partial class Inital
     {
         /// <inheritdoc />
@@ -24,9 +24,9 @@ namespace BankingSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("BankingSystem.Domain.Entities.Account", b =>
                 {
-                    b.Property<int>("AccountId")
+                    b.Property<Guid>("AccountId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("AccountHolderName")
                         .IsRequired()
@@ -42,7 +42,7 @@ namespace BankingSystem.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("AccountId");
@@ -54,12 +54,12 @@ namespace BankingSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("BankingSystem.Domain.Entities.Transaction", b =>
                 {
-                    b.Property<int>("TransactionId")
+                    b.Property<Guid>("TransactionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -113,9 +113,13 @@ namespace BankingSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("BankingSystem.Domain.Entities.Account", b =>
                 {
-                    b.HasOne("BankingSystem.Domain.Entities.User", null)
+                    b.HasOne("BankingSystem.Domain.Entities.User", "User")
                         .WithMany("Accounts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BankingSystem.Domain.Entities.Transaction", b =>

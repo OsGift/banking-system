@@ -12,7 +12,7 @@ namespace BankingSystem.Infrastructure.Persistence.Repositories
             _cacheService = cacheService;
         }
 
-        public async Task<List<Transaction>> GetCachedTransactionsByAccountIdAsync(int accountId)
+        public async Task<List<Transaction>> GetCachedTransactionsByAccountIdAsync(Guid accountId)
         {
             var cacheKey = $"transactions_account_{accountId}";
             var cachedTransactions = await _cacheService.GetAsync<List<Transaction>>(cacheKey);
