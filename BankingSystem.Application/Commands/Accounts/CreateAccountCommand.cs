@@ -6,5 +6,6 @@ namespace BankingSystem.Application.Commands.Accounts
     {
         public string AccountHolderName { get; set; } = string.Empty;
         public decimal InitialDeposit { get; set; }
+        public Guid UserId { get; set; }
     }
 }

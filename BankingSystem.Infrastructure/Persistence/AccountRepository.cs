@@ -14,7 +14,7 @@ namespace BankingSystem.Infrastructure.Persistence.Repositories
 
         public async Task<Account?> GetAccountByIdAsync(int accountId)
         {
-            return await _context.Accounts.Include(a => a.Transactions)
+            return await _context.Accounts.Include(a => a.User).Include(a => a.Transactions)
                                           .FirstOrDefaultAsync(a => a.AccountId == accountId);
         }
 

@@ -18,7 +18,8 @@ namespace BankingSystem.Application.Commands.Accounts
             var account = new Account
             {
                 AccountHolderName = request.AccountHolderName,
-                Balance = request.InitialDeposit
+                Balance = request.InitialDeposit,
+                UserId = request.UserId,
             };
 
             return await _accountService.CreateAccountAsync(account);

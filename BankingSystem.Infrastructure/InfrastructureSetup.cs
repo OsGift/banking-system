@@ -1,6 +1,7 @@
 ﻿using BankingSystem.Application.Interfaces;
 using BankingSystem.Infrastructure.Persistence;
 using BankingSystem.Infrastructure.Persistence.Repositories;
+using BankingSystem.Infrastructure.Repositories;
 using BankingSystem.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,7 @@ namespace BankingSystem.Infrastructure
             // Register services
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<DatabaseInitializer>();
         }
     }

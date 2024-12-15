@@ -15,6 +15,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.3.0" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.22" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
   </ItemGroup>

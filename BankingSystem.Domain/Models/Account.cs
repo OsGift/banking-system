@@ -10,8 +10,10 @@ namespace BankingSystem.Domain.Entities
         public string AccountNumber { get; set; } = string.Empty;
         public string AccountHolderName { get; set; } = string.Empty;
         public decimal Balance { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
 
         public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

@@ -4,11 +4,43 @@ namespace BankingSystem.API.Swagger
 {
     public static class SwaggerConfiguration
     {
+
         public static void AddSwaggerDocumentation(this IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BankingSystem API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Banking Backend API",
+                    Version = "v1",
+                    Description = "API for managing banking operations, including transactions, accounts, and analytics."
+                });
+
+                // Add JWT Bearer token authentication to Swagger
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and then your token in the text input below.\nExample: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
         }
 

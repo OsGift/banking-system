@@ -1,5 +1,9 @@
 ﻿using BankingSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BankingSystem.Infrastructure.Persistence
 {
@@ -22,34 +26,35 @@ namespace BankingSystem.Infrastructure.Persistence
             {
                 var users = new List<User>
                 {
-                    // Admins
-                    new User { Username = "admin1", PasswordHash = HashPassword("password123"), Role = "Admin" },
-                    new User { Username = "admin2", PasswordHash = HashPassword("password123"), Role = "Admin" },
-                    new User { Username = "admin3", PasswordHash = HashPassword("password123"), Role = "Admin" },
-
-                    // Managers
-                    new User { Username = "manager1", PasswordHash = HashPassword("password123"), Role = "Manager" },
-                    new User { Username = "manager2", PasswordHash = HashPassword("password123"), Role = "Manager" },
-                    new User { Username = "manager3", PasswordHash = HashPassword("password123"), Role = "Manager" },
-
-                    // Users
-                    new User { Username = "user1", PasswordHash = HashPassword("password123"), Role = "User" },
-                    new User { Username = "user2", PasswordHash = HashPassword("password123"), Role = "User" },
-                    new User { Username = "user3", PasswordHash = HashPassword("password123"), Role = "User" },
+                    new User { UserId = Guid.NewGuid(), Username = "janesmith", Email = "janesmith@yopmail.com", PasswordHash = HashPassword("janeAdmin2024!"), Role = "Admin", CreatedAt = DateTime.Now.AddMonths(-1) },
+                    new User { UserId = Guid.NewGuid(), Username = "michaeljohnson", Email = "michaeljohnson@yopmail.com", PasswordHash = HashPassword("mikeAdmin2024!"), Role = "Admin", CreatedAt = DateTime.Now.AddMonths(-2) },
+                    new User { UserId = Guid.NewGuid(), Username = "susanbrown", Email = "susanbrown@yopmail.com", PasswordHash = HashPassword("susanAdmin2024!"), Role = "Admin", CreatedAt = DateTime.Now.AddMonths(-3) },
+                    new User { UserId = Guid.NewGuid(), Username = "lindawhite", Email = "lindawhite@yopmail.com", PasswordHash = HashPassword("lindaManager2024!"), Role = "Manager", CreatedAt = DateTime.Now.AddMonths(-4) },
+                    new User { UserId = Guid.NewGuid(), Username = "davidmiller", Email = "davidmiller@yopmail.com", PasswordHash = HashPassword("davidManager2024!"), Role = "Manager", CreatedAt = DateTime.Now.AddMonths(-5) },
+                    new User { UserId = Guid.NewGuid(), Username = "chrisdavis", Email = "chrisdavis@yopmail.com", PasswordHash = HashPassword("chrisManager2024!"), Role = "Manager", CreatedAt = DateTime.Now.AddMonths(-6) },
+                    new User { UserId = Guid.NewGuid(), Username = "emilywilson", Email = "emilywilson@yopmail.com", PasswordHash = HashPassword("emilyUser2024!"), Role = "User", CreatedAt = DateTime.Now.AddMonths(-7) },
+                    new User { UserId = Guid.NewGuid(), Username = "robertmoore", Email = "robertmoore@yopmail.com", PasswordHash = HashPassword("robertUser2024!"), Role = "User", CreatedAt = DateTime.Now.AddMonths(-8) },
+                    new User { UserId = Guid.NewGuid(), Username = "oliviajones", Email = "oliviajones@yopmail.com", PasswordHash = HashPassword("oliviaUser2024!"), Role = "User", CreatedAt = DateTime.Now.AddMonths(-9) }
                 };
 
                 await _context.Users.AddRangeAsync(users);
                 await _context.SaveChangesAsync();
             }
 
+            // Retrieve all users from the context after adding them
+            var usersInDb = await _context.Users.ToListAsync();
+
             // Seed Accounts (Optional)
             if (!_context.Accounts.Any())
             {
                 var accounts = new List<Account>
                 {
-                    new Account { AccountNumber = "12345678", AccountHolderName = "John Doe", Balance = 1000 },
-                    new Account { AccountNumber = "87654321", AccountHolderName = "Jane Doe", Balance = 500 },
-                    new Account { AccountNumber = "11223344", AccountHolderName = "Mike Ross", Balance = 750 }
+                    new Account { AccountNumber = "123456789012", AccountHolderName = "John Doe", Balance = 5234.50m, UserId = usersInDb.FirstOrDefault(u => u.Username == "janesmith")?.UserId ?? Guid.Empty },
+                    new Account { AccountNumber = "876543210987", AccountHolderName = "Jane Doe", Balance = 1327.75m, UserId = usersInDb.FirstOrDefault(u => u.Username == "michaeljohnson")?.UserId ?? Guid.Empty },
+                    new Account { AccountNumber = "112233445566", AccountHolderName = "Mike Ross", Balance = 9020.00m, UserId = usersInDb.FirstOrDefault(u => u.Username == "susanbrown")?.UserId ?? Guid.Empty },
+                    new Account { AccountNumber = "987654321234", AccountHolderName = "Emily Wilson", Balance = 50.00m, UserId = usersInDb.FirstOrDefault(u => u.Username == "emilywilson")?.UserId ?? Guid.Empty },
+                    new Account { AccountNumber = "432198765432", AccountHolderName = "Robert Moore", Balance = 350.25m, UserId = usersInDb.FirstOrDefault(u => u.Username == "robertmoore")?.UserId ?? Guid.Empty },
+                    new Account { AccountNumber = "246813579024", AccountHolderName = "Olivia Jones", Balance = 1742.90m, UserId = usersInDb.FirstOrDefault(u => u.Username == "oliviajones")?.UserId ?? Guid.Empty }
                 };
 
                 await _context.Accounts.AddRangeAsync(accounts);
