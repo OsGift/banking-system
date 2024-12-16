@@ -1,5 +1,7 @@
 ﻿using BankingSystem.Application.Commands.Transactions;
-using BankingSystem.Application.Queries.Accounts.BankingSystem.Application.Queries.Transactions;
+using BankingSystem.Application.DTOs.BankingSystem.Application.DTOs;
+using BankingSystem.Application.DTOs;
+using BankingSystem.Application.Queries.Transactions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,25 +19,43 @@ namespace BankingSystem.API.Controllers
         }
 
         [HttpPost("deposit")]
-        public async Task<IActionResult> Deposit([FromBody] DepositCommand command)
+        public async Task<ActionResult<ResponseType<bool>>> Deposit([FromBody] DepositCommand command)
         {
             var result = await _mediator.Send(command);
-            return result ? Ok("Deposit successful.") : BadRequest("Failed to deposit.");
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
         [HttpPost("withdraw")]
-        public async Task<IActionResult> Withdraw([FromBody] WithdrawCommand command)
+        public async Task<ActionResult<ResponseType<bool>>> Withdraw([FromBody] WithdrawCommand command)
         {
             var result = await _mediator.Send(command);
-            return result ? Ok("Withdrawal successful.") : BadRequest("Failed to withdraw.");
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
 
-        [HttpGet("{accountId}/history")]
-        public async Task<IActionResult> GetTransactionHistory(Guid accountId)
+        [HttpGet("{accountNumber}/history")]
+        public async Task<ActionResult<ResponseType<List<TransactionDto>>>> GetTransactionHistory(string accountNumber)
         {
-            var query = new GetTransactionHistoryQuery { AccountId = accountId };
-            var transactions = await _mediator.Send(query);
-            return Ok(transactions);
+            var query = new GetTransactionHistoryQuery { AccountNumber = accountNumber };
+            var result = await _mediator.Send(query);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
     }
 }

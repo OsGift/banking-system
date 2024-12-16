@@ -1,9 +1,10 @@
-﻿using BankingSystem.Application.Interfaces;
+﻿using BankingSystem.Application.DTOs;
+using BankingSystem.Application.Interfaces;
 using MediatR;
 
 namespace BankingSystem.Application.Commands.Transactions
 {
-    public class DepositHandler : IRequestHandler<DepositCommand, bool>
+    public class DepositHandler : IRequestHandler<DepositCommand, ResponseType<bool>>
     {
         private readonly ITransactionService _transactionService;
 
@@ -12,9 +13,12 @@ namespace BankingSystem.Application.Commands.Transactions
             _transactionService = transactionService;
         }
 
-        public async Task<bool> Handle(DepositCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseType<bool>> Handle(DepositCommand request, CancellationToken cancellationToken)
         {
-            return await _transactionService.DepositAsync(request.AccountId, request.Amount);
+            return await _transactionService.DepositAsync(request.AccountNumber, request.Amount)
+                ? ResponseType<bool>.Success(true, "Deposit successful.")
+                : ResponseType<bool>.Failure("Deposit failed.");
         }
+
     }
 }

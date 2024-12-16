@@ -19,6 +19,10 @@ namespace BankingSystem.Infrastructure
                 .WithOne(a => a.User)
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.Cascade); // Cascade delete to handle child records
+                                                   // Add index on AccountNumber to enforce uniqueness
+            modelBuilder.Entity<Account>()
+                .HasIndex(a => a.AccountNumber)   // Create an index on AccountNumber
+                .IsUnique();                      // Make the index unique
         }
     }
 }

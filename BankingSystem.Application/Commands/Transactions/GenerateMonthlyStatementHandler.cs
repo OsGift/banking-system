@@ -1,9 +1,10 @@
-﻿using BankingSystem.Application.Interfaces;
+﻿using BankingSystem.Application.DTOs;
+using BankingSystem.Application.Interfaces;
 using MediatR;
 
 namespace BankingSystem.Application.Commands.Transactions
 {
-    public class GenerateMonthlyStatementHandler : IRequestHandler<GenerateMonthlyStatementCommand, string>
+    public class GenerateMonthlyStatementHandler : IRequestHandler<GenerateMonthlyStatementCommand, ResponseType<string>>
     {
         private readonly ITransactionService _transactionService;
 
@@ -12,9 +13,22 @@ namespace BankingSystem.Application.Commands.Transactions
             _transactionService = transactionService;
         }
 
-        public async Task<string> Handle(GenerateMonthlyStatementCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseType<string>> Handle(GenerateMonthlyStatementCommand request, CancellationToken cancellationToken)
         {
-            return await _transactionService.GenerateMonthlyStatementAsync(request.AccountId, request.Month, request.Year);
+            try
+            {
+                var statement = await _transactionService.GenerateMonthlyStatementAsync(request.AccountNumber, request.Month, request.Year);
+
+                // Check if the statement is null or empty and return the appropriate response
+                return string.IsNullOrEmpty(statement)
+                    ? ResponseType<string>.Failure("Generated statement is null or empty.")
+                    : ResponseType<string>.Success(statement, "Monthly statement generated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return ResponseType<string>.Failure($"Error generating monthly statement: {ex.Message}");
+            }
         }
+
     }
 }

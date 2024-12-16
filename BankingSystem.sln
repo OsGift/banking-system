@@ -3,25 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.API", "BankingSystem.API\BankingSystem.API.csproj", "{A172E52D-A524-407D-896A-464E0D7EB3DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankingSystem.API", "BankingSystem.API\BankingSystem.API.csproj", "{A172E52D-A524-407D-896A-464E0D7EB3DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.Application", "BankingSystem.Application\BankingSystem.Application.csproj", "{BBF7F2BF-2CBE-43B3-9357-0745E59AC528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankingSystem.Application", "BankingSystem.Application\BankingSystem.Application.csproj", "{BBF7F2BF-2CBE-43B3-9357-0745E59AC528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.Domain", "BankingSystem.Domain\BankingSystem.Domain.csproj", "{C01DB40A-1D8E-4A68-B9C0-9F5931376763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankingSystem.Domain", "BankingSystem.Domain\BankingSystem.Domain.csproj", "{C01DB40A-1D8E-4A68-B9C0-9F5931376763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.Infrastructure", "BankingSystem.Infrastructure\BankingSystem.Infrastructure.csproj", "{F8B29024-6321-424D-A270-A80E60F59DB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankingSystem.Infrastructure", "BankingSystem.Infrastructure\BankingSystem.Infrastructure.csproj", "{F8B29024-6321-424D-A270-A80E60F59DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.UnitTests", "BankingSystem.UnitTests\BankingSystem.UnitTests.csproj", "{D7F3DF72-F250-4AFD-B0CF-9B15BDA8D25D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankingSystem.UnitTests", "BankingSystem.UnitTests\BankingSystem.UnitTests.csproj", "{D7F3DF72-F250-4AFD-B0CF-9B15BDA8D25D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.IntegrationTests", "BankingSystem.IntegrationTests\BankingSystem.IntegrationTests.csproj", "{7B57A7F2-C111-433E-BC70-04BBA1A28423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankingSystem.IntegrationTests", "BankingSystem.IntegrationTests\BankingSystem.IntegrationTests.csproj", "{7B57A7F2-C111-433E-BC70-04BBA1A28423}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A2EC2A40-F7EB-4EE3-AD95-411EE172E54C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{8561F850-14EA-4E3E-9F8E-1611E7202074}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A172E52D-A524-407D-896A-464E0D7EB3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -48,5 +49,19 @@ Global
 		{7B57A7F2-C111-433E-BC70-04BBA1A28423}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B57A7F2-C111-433E-BC70-04BBA1A28423}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B57A7F2-C111-433E-BC70-04BBA1A28423}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2EC2A40-F7EB-4EE3-AD95-411EE172E54C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2EC2A40-F7EB-4EE3-AD95-411EE172E54C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2EC2A40-F7EB-4EE3-AD95-411EE172E54C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2EC2A40-F7EB-4EE3-AD95-411EE172E54C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8561F850-14EA-4E3E-9F8E-1611E7202074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8561F850-14EA-4E3E-9F8E-1611E7202074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8561F850-14EA-4E3E-9F8E-1611E7202074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8561F850-14EA-4E3E-9F8E-1611E7202074}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C31900B0-56A1-44AC-9C47-BA63FAC87FE2}
 	EndGlobalSection
 EndGlobal

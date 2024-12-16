@@ -3,8 +3,8 @@ using MediatR;
 
 namespace BankingSystem.Application.Queries.Accounts
 {
-    public class GetAccountDetailsQuery : IRequest<AccountDto>
+    public class GetAccountDetailsQuery : IRequest<ResponseType<AccountDto>>
     {
-        public Guid AccountId { get; set; }
+        public string AccountNumber { get; set; }
     }
 }

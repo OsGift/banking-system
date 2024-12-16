@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using BankingSystem.Application.DTOs;
+using MediatR;
 
 namespace BankingSystem.Application.Commands.Transactions
 {
-    public class DepositCommand : IRequest<bool>
+    public class DepositCommand : IRequest<ResponseType<bool>>
     {
-        public Guid AccountId { get; set; }
+        public string AccountNumber { get; set; }
         public decimal Amount { get; set; }
     }
 }

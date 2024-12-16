@@ -1,6 +1,8 @@
 using BankingSystem.API.Filters;
 using BankingSystem.API.Middleware;
 using BankingSystem.API.Swagger;
+using BankingSystem.Application.Commands.Accounts;
+using BankingSystem.Application.Mappings;
 using BankingSystem.Infrastructure;
 using BankingSystem.Infrastructure.Configurations;
 using BankingSystem.Infrastructure.Persistence;
@@ -9,14 +11,33 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add AutoMapper and register profiles
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+// Add Serilog to the logging pipeline
+builder.Host.UseSerilog();
 // Register MediatR service
 
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); // API
+    cfg.RegisterServicesFromAssembly(typeof(CreateAccountCommand).Assembly); // Application
+});
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 // Bind configuration sections to classes
 builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));

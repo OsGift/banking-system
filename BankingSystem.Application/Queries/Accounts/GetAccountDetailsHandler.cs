@@ -4,7 +4,7 @@ using MediatR;
 
 namespace BankingSystem.Application.Queries.Accounts
 {
-    public class GetAccountDetailsHandler : IRequestHandler<GetAccountDetailsQuery, AccountDto>
+    public class GetAccountDetailsHandler : IRequestHandler<GetAccountDetailsQuery, ResponseType<AccountDto>>
     {
         private readonly IAccountService _accountService;
 
@@ -13,9 +13,29 @@ namespace BankingSystem.Application.Queries.Accounts
             _accountService = accountService;
         }
 
-        public async Task<AccountDto> Handle(GetAccountDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseType<AccountDto>> Handle(GetAccountDetailsQuery request, CancellationToken cancellationToken)
         {
-            return await _accountService.GetAccountDetailsAsync(request.AccountId);
+            try
+            {
+                // Attempt to fetch account details asynchronously
+                var accountDetails = await _accountService.GetAccountByAccountNumberAsync(request.AccountNumber);
+
+                // If account details are found, return a success response
+                if (accountDetails != null)
+                {
+                    return ResponseType<AccountDto>.Success(accountDetails);
+                }
+                else
+                {
+                    // If account details are not found, return a failure response
+                    return ResponseType<AccountDto>.Failure("Account not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // If an error occurs, return a failure response with exception details
+                return ResponseType<AccountDto>.Failure($"An error occurred: {ex.Message}");
+            }
         }
     }
 }

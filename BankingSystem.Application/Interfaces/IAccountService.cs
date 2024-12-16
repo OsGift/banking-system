@@ -5,7 +5,11 @@ namespace BankingSystem.Application.Interfaces
 {
     public interface IAccountService
     {
-        Task<bool> CreateAccountAsync(Account account);
-        Task<AccountDto?> GetAccountDetailsAsync(Guid accountId);
+        Task<AccountDto> CreateAccountAsync(Account account);
+        Task<AccountDto?> GetAccountByIdAsync(Guid accountId);
+        Task<AccountDto?> GetAccountByAccountNumberAsync(string accountNumber);
+        Task<List<AccountDto>> GetAccounts();
+        Task<List<AccountDto>> GetAccountsByUser(Guid accountNumber);
+        Task<AccountDto> UpdateAccountAsync(Account account);
     }
 }
